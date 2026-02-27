@@ -31,6 +31,9 @@ jobs:
       - name: Install NPM dependencies
         run: npm ci
 
+      - name: Validate app
+        run: npm run lint
+
       - name: Build app
         run: npm run build
 
