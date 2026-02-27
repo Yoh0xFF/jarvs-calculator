@@ -25,10 +25,11 @@ export interface Token {
 }
 
 // Exception
-export class InvalidExpression {
-  public message: string;
-
+export class InvalidExpression extends Error {
   constructor(token: string | undefined, index: number) {
-    this.message = `Invalid expression, unknow character '${token ?? ''}' at index ${index}`;
+    super(
+      `Invalid expression, unknow character '${token ?? ''}' at index ${index}`,
+    );
+    this.name = 'InvalidExpression';
   }
 }

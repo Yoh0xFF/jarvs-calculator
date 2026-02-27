@@ -29,16 +29,16 @@ export class PrattParser implements ParserInterface {
   ]);
 
   private prefixParsers: Map<TokenType, () => Expression> = new Map([
-    ['Operand', this.parsePrimary],
-    ['Operator-', this.parseUnary],
-    ['Parenthesis(', this.parseGroup],
+    ['Operand', () => this.parsePrimary()],
+    ['Operator-', () => this.parseUnary()],
+    ['Parenthesis(', () => this.parseGroup()],
   ]);
   private infixParsers: Map<TokenType, (left: Expression) => Expression> =
     new Map([
-      ['Operator+', this.parseBinary],
-      ['Operator-', this.parseBinary],
-      ['Operator*', this.parseBinary],
-      ['Operator/', this.parseBinary],
+      ['Operator+', (left) => this.parseBinary(left)],
+      ['Operator-', (left) => this.parseBinary(left)],
+      ['Operator*', (left) => this.parseBinary(left)],
+      ['Operator/', (left) => this.parseBinary(left)],
     ]);
 
   constructor(public lexer: Lexer) {
@@ -64,7 +64,7 @@ export class PrattParser implements ParserInterface {
     if (prefixParser == null) {
       throw new InvalidExpression(this.token.value[0], this.token.index);
     }
-    let left = prefixParser.bind(this)();
+    let left = prefixParser();
 
     while (
       this.nextToken.type != 'EoE' &&
@@ -76,7 +76,7 @@ export class PrattParser implements ParserInterface {
       }
 
       this.advance();
-      left = infixParser.bind(this)(left);
+      left = infixParser(left);
     }
 
     return left;

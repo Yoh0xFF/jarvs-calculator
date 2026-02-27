@@ -7,9 +7,9 @@ export class RegexLexer implements LexerInterface {
     [/^\s+/, null],
     [/^\d+(\.\d+)?/, 'Operand'],
     [/^[+]/, 'Operator+'],
-    [/^[\-]/, 'Operator-'],
+    [/^[-]/, 'Operator-'],
     [/^[*]/, 'Operator*'],
-    [/^[\/]/, 'Operator/'],
+    [/^[/]/, 'Operator/'],
     [/^[(]/, 'Parenthesis('],
     [/^[)]/, 'Parenthesis)'],
   ];
