@@ -1,7 +1,7 @@
-import { appConfig, LexerType } from '@root/appConfig.ts';
-import { Lexer } from '@root/lexer/index.ts';
 import { deepStrictEqual, strictEqual } from 'node:assert';
 import { beforeEach, describe, it, mock } from 'node:test';
+import { appConfig, LexerType } from '../../appConfig';
+import { Lexer } from './index';
 
 describe('Test LexerWithRegex', () => {
   runTests('Regex');

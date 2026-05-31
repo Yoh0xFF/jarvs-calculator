@@ -1,9 +1,9 @@
-import { appConfig, LexerType, ParserType } from '@root/appConfig.ts';
-import { evaluateExpression } from '@root/interpreter/index.ts';
-import { Lexer } from '@root/lexer/index.ts';
-import { Parser } from '@root/parser/index.ts';
 import { strictEqual } from 'node:assert';
 import { beforeEach, describe, it, mock } from 'node:test';
+import { appConfig, LexerType, ParserType } from '../../appConfig';
+import { Lexer } from '../lexer';
+import { Parser } from '../parser';
+import { evaluateExpression } from './index';
 
 describe('Test Interpreter with Regex lexer and Recursive parser', () => {
   runTests('Regex', 'Recursive');

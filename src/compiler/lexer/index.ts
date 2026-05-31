@@ -1,8 +1,8 @@
-import { appConfig } from '@root/appConfig.ts';
-import { LexerInterface } from '@root/lexer/interface.ts';
-import { RegexLexer } from '@root/lexer/regex-lexer.ts';
-import { ScannerLexer } from '@root/lexer/scanner-lexer.ts';
-import { Token } from '@root/model/index.ts';
+import { appConfig } from '../../appConfig';
+import { Token } from '../model';
+import { LexerInterface } from './interface';
+import { RegexLexer } from './regex-lexer';
+import { ScannerLexer } from './scanner-lexer';
 
 export class Lexer implements LexerInterface {
   private lexer: LexerInterface;

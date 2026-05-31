@@ -1,4 +1,4 @@
-import { Expression } from '@root/model/index.ts';
+import { Expression } from '../model';
 
 export function evaluateExpression(expression: Expression): number {
   switch (expression.type) {

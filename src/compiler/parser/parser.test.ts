@@ -1,8 +1,8 @@
-import { appConfig, ParserType } from '@root/appConfig.ts';
-import { Lexer } from '@root/lexer/index.ts';
-import { Parser } from '@root/parser/index.ts';
 import { deepStrictEqual, fail, strictEqual } from 'node:assert';
 import { beforeEach, describe, it, mock } from 'node:test';
+import { appConfig, ParserType } from '../../appConfig';
+import { Lexer } from '../lexer';
+import { Parser } from './index';
 
 describe('Test PrattParser', function () {
   runTests('Pratt');

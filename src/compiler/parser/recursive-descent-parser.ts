@@ -1,6 +1,6 @@
-import { Lexer } from '@root/lexer/index.ts';
-import { Expression, InvalidExpression, Token } from '@root/model/index.ts';
-import { ParserInterface } from '@root/parser/interface.ts';
+import { Lexer } from '../lexer';
+import { Expression, InvalidExpression, Token } from '../model';
+import { ParserInterface } from './interface';
 
 export class RecursiveDescentParser implements ParserInterface {
   private token: Token;

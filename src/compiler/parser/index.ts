@@ -1,9 +1,9 @@
-import { appConfig } from '@root/appConfig.ts';
-import { Lexer } from '@root/lexer/index.ts';
-import { Expression } from '@root/model/index.ts';
-import { ParserInterface } from '@root/parser/interface.ts';
-import { PrattParser } from '@root/parser/pratt-parser.ts';
-import { RecursiveDescentParser } from '@root/parser/recursive-descent-parser.ts';
+import { appConfig } from '../../appConfig';
+import { Lexer } from '../lexer';
+import { Expression } from '../model';
+import { ParserInterface } from './interface';
+import { PrattParser } from './pratt-parser';
+import { RecursiveDescentParser } from './recursive-descent-parser';
 
 export class Parser implements ParserInterface {
   private parser: ParserInterface;

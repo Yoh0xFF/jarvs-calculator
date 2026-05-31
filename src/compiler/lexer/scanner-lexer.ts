@@ -1,5 +1,5 @@
-import { LexerInterface } from '@root/lexer/interface.ts';
-import { InvalidExpression, Token, TokenType } from '@root/model/index.ts';
+import { InvalidExpression, Token, TokenType } from '../model';
+import { LexerInterface } from './interface';
 
 export class ScannerLexer implements LexerInterface {
   private operators: Array<string> = ['+', '-', '*', '/'] as const;

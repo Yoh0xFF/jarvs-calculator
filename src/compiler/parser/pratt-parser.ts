@@ -1,12 +1,12 @@
-import { Lexer } from '@root/lexer/index.ts';
+import { Lexer } from '../lexer';
 import {
   Expression,
   InvalidExpression,
   PrecedenceType,
   Token,
   TokenType,
-} from '@root/model/index.ts';
-import { ParserInterface } from '@root/parser/interface.ts';
+} from '../model';
+import { ParserInterface } from './interface';
 
 export class PrattParser implements ParserInterface {
   private token: Token;
