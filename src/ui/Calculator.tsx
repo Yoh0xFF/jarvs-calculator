@@ -50,7 +50,13 @@ export function Calculator() {
   }
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setExpression(e.target.value);
+    setExpression(e.target.value.replace(/[^0-9+\-*/().]/g, ''));
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Enter') {
+      handleButtonClick('=');
+    }
   }
 
   return (
@@ -60,7 +66,9 @@ export function Calculator() {
         type='text'
         value={expression}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
         placeholder='0'
+        autoFocus
       />
       <div className='calculator-buttons'>
         {buttonLayout.map((row, rowIndex) => (
