@@ -1,7 +1,10 @@
+import './App.css';
+import { Calculator } from './ui/Calculator';
+
 export function App() {
   return (
-    <div>
-      <p>Hello World</p>
+    <div className='app'>
+      <Calculator />
     </div>
   );
 }
