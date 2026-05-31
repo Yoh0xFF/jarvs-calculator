@@ -12,9 +12,8 @@
   "license": "MIT",
   "author": "Ioram Gordadze <Yoh0xFF@gmail.com>",
   "type": "module",
-  "main": "dist/index.mjs",
   "scripts": {
-    "build": "tsc && tsup",
+    "build": "tsc && vite build",
     "build:dev": "tsc --watch",
     "clean": "npx rimraf ./dist ./node_modules --glob",
     "format": "prettier --no-error-on-unmatched-pattern --write \"./**/*.{js,ts}\" && prettier --write package.json",
@@ -24,8 +23,8 @@
     "lint:fix": "eslint . --fix",
     "pre-commit": "lint-staged",
     "prepare": "husky",
-    "start": "node dist/index.mjs",
-    "start:dev": "tsx --watch src/index.ts",
+    "start": "vite",
+    "start:preview": "vite preview",
     "test": "node --import tsx --test src/**/*.test.ts",
     "test:dev": "node --import tsx --test --watch src/**/*.test.ts"
   },
