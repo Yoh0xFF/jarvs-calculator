@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { Lexer } from '../lexer';
-import { Parser, ParserType } from './index';
+import { Lexer } from './lexer';
+import { Parser, ParserType } from './parser';
 
 describe('Test PrattParser', () => {
   runTests('Pratt');

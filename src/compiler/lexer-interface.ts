@@ -1,4 +1,4 @@
-import { Token } from '../model';
+import { Token } from './ast';
 
 export interface LexerInterface {
   expression: string;

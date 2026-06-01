@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Lexer, LexerType } from './index';
+import { Lexer, LexerType } from './lexer';
 
 describe('Test LexerWithRegex', () => {
   runTests('Regex');

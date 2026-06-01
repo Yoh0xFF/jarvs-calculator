@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { Lexer, LexerType } from '../lexer';
-import { Parser, ParserType } from '../parser';
-import { evaluateExpression } from './index';
+import { evaluateExpression } from './interpreter';
+import { Lexer, LexerType } from './lexer';
+import { Parser, ParserType } from './parser';
 
 describe('Test Interpreter with Regex lexer and Recursive parser', () => {
   runTests('Regex', 'Recursive');

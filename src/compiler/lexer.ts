@@ -1,7 +1,7 @@
-import { Token } from '../model';
-import { LexerInterface } from './interface';
-import { RegexLexer } from './regex-lexer';
-import { ScannerLexer } from './scanner-lexer';
+import { Token } from './ast';
+import { LexerInterface } from './lexer-interface';
+import { LexerRegex } from './lexer-regex';
+import { LexerScanner } from './lexer-scanner';
 
 export type LexerType = 'Regex' | 'Scanner';
 
@@ -14,13 +14,13 @@ export class Lexer implements LexerInterface {
   ) {
     switch (type) {
       case 'Regex':
-        this.lexer = new RegexLexer(this.expression);
+        this.lexer = new LexerRegex(this.expression);
         break;
       case 'Scanner':
-        this.lexer = new ScannerLexer(this.expression);
+        this.lexer = new LexerScanner(this.expression);
         break;
       default:
-        this.lexer = new RegexLexer(this.expression);
+        this.lexer = new LexerRegex(this.expression);
     }
   }
 

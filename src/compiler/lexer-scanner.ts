@@ -1,7 +1,7 @@
-import { InvalidExpression, Token, TokenType } from '../model';
-import { LexerInterface } from './interface';
+import { InvalidExpression, Token, TokenType } from './ast';
+import { LexerInterface } from './lexer-interface';
 
-export class ScannerLexer implements LexerInterface {
+export class LexerScanner implements LexerInterface {
   private operators: Array<string> = ['+', '-', '*', '/'] as const;
   private parentheses: Array<string> = ['(', ')'] as const;
   private index: number;

@@ -1,8 +1,8 @@
-import { Lexer } from '../lexer';
-import { Expression } from '../model';
-import { ParserInterface } from './interface';
-import { PrattParser } from './pratt-parser';
-import { RecursiveDescentParser } from './recursive-descent-parser';
+import { Expression } from './ast';
+import { Lexer } from './lexer';
+import { ParserInterface } from './parser-interface';
+import { ParserPratt } from './parser-pratt';
+import { ParserRecursiveDescent } from './parser-recursive-descent';
 
 export type ParserType = 'Recursive' | 'Pratt';
 
@@ -15,13 +15,13 @@ export class Parser implements ParserInterface {
   ) {
     switch (type) {
       case 'Recursive':
-        this.parser = new RecursiveDescentParser(lexer);
+        this.parser = new ParserRecursiveDescent(lexer);
         break;
       case 'Pratt':
-        this.parser = new PrattParser(lexer);
+        this.parser = new ParserPratt(lexer);
         break;
       default:
-        this.parser = new RecursiveDescentParser(lexer);
+        this.parser = new ParserRecursiveDescent(lexer);
     }
   }
 

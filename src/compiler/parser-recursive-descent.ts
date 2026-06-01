@@ -1,8 +1,8 @@
-import { Lexer } from '../lexer';
-import { Expression, InvalidExpression, Token } from '../model';
-import { ParserInterface } from './interface';
+import { Expression, InvalidExpression, Token } from './ast';
+import { Lexer } from './lexer';
+import { ParserInterface } from './parser-interface';
 
-export class RecursiveDescentParser implements ParserInterface {
+export class ParserRecursiveDescent implements ParserInterface {
   private token: Token;
   private nextToken: Token;
 
