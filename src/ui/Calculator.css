@@ -15,11 +15,12 @@
   font-size: 22px;
   line-height: 1.5;
   margin-bottom: 20px;
-  min-height: 100px;
+  min-height: 140px;
   outline: none;
   padding: 16px;
   resize: none;
   text-align: left;
+  caret-shape: underscore;
   width: 100%;
   box-sizing: border-box;
 }
