@@ -58,6 +58,14 @@ export function Calculator() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const key = e.key === 'Enter' ? '=' : e.key;
+
+    const allButtonValues = buttonLayout.flat().map((b) => b.value);
+    if (allButtonValues.includes(key)) {
+      setPressedButton(key);
+      setTimeout(() => setPressedButton(null), 180);
+    }
+
     if (e.key === 'Enter') {
       handleButtonClick('=');
     }
