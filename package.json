@@ -16,7 +16,7 @@
   "scripts": {
     "build": "tsc && vite build",
     "deploy": "gh-pages -d dist -u 'github-actions-bot <support+actions@github.com>'",
-    "format": "prettier --no-error-on-unmatched-pattern --write \"./**/*.{js,ts}\" && prettier --write package.json",
+    "format": "prettier --no-error-on-unmatched-pattern --write \"./**/*.{js,ts,jsx,tsx}\" && prettier --write package.json",
     "git:clear": "git remote prune origin && git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -D",
     "postinstall": "husky init && npx path-exists-cli .husky && echo \"npm run pre-commit\" > .husky/pre-commit && prettier --write package.json",
     "lint": "eslint .",

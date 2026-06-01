@@ -53,8 +53,11 @@ export function Calculator() {
     setTimeout(() => setPressedButton(null), 180);
 
     if (value === '=') {
+      const collapsed = expression.replace(/\n/g, '');
+      if (collapsed.trim() === '') {
+        return;
+      }
       try {
-        const collapsed = expression.replace(/\n/g, '');
         const lexer = new Lexer(collapsed);
         const parser = new Parser(lexer);
         const ast = parser.parseExpression();
