@@ -45,7 +45,7 @@ const buttonLayout: ButtonConfig[][] = [
 export function Calculator() {
   const [expression, setExpression] = useState('');
   const [pressedButton, setPressedButton] = useState<string | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleButtonClick = (value: string) => {
     inputRef.current?.focus();
@@ -54,7 +54,8 @@ export function Calculator() {
 
     if (value === '=') {
       try {
-        const lexer = new Lexer(expression);
+        const collapsed = expression.replace(/\n/g, '');
+        const lexer = new Lexer(collapsed);
         const parser = new Parser(lexer);
         const ast = parser.parseExpression();
         const result = evaluateExpression(ast);
@@ -73,41 +74,45 @@ export function Calculator() {
     setExpression((prev) => prev + value);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setExpression(e.target.value.replace(/[^0-9+\-*/().]/g, ''));
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setExpression(e.target.value.replace(/[^0-9+\-*/().\n]/g, ''));
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Backspace' || e.key === 'Delete') {
       setPressedButton('backspace');
       setTimeout(() => setPressedButton(null), 180);
       return;
     }
 
-    const key = e.key === 'Enter' ? '=' : e.key;
-
-    const allButtonValues = buttonLayout.flat().map((b) => b.value);
-    if (allButtonValues.includes(key)) {
-      setPressedButton(key);
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      setPressedButton('=');
       setTimeout(() => setPressedButton(null), 180);
+      handleButtonClick('=');
+      return;
     }
 
-    if (e.key === 'Enter') {
-      handleButtonClick('=');
+    const allButtonValues = buttonLayout.flat().map((b) => b.value);
+    if (allButtonValues.includes(e.key)) {
+      setPressedButton(e.key);
+      setTimeout(() => setPressedButton(null), 180);
     }
   };
 
   return (
     <div className='calculator'>
-      <input
+      <textarea
         className='display'
-        type='text'
         value={expression}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         placeholder='0'
         ref={inputRef}
         autoFocus
+        spellCheck={false}
+        data-gramm='false'
+        data-gramm_editor='false'
       />
 
       <div className='buttons'>

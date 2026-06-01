@@ -12,11 +12,14 @@
   border-radius: 8px;
   color: #cdd6f4;
   font-family: 'Courier New', monospace;
-  font-size: 28px;
+  font-size: 22px;
+  line-height: 1.5;
   margin-bottom: 20px;
+  min-height: 100px;
   outline: none;
   padding: 16px;
-  text-align: right;
+  resize: none;
+  text-align: left;
   width: 100%;
   box-sizing: border-box;
 }
