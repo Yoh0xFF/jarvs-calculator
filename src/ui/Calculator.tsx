@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { evaluateExpression } from '../compiler/interpreter';
 import { Lexer } from '../compiler/lexer';
 import { Parser } from '../compiler/parser';
@@ -45,8 +45,10 @@ const buttonLayout: ButtonConfig[][] = [
 export function Calculator() {
   const [expression, setExpression] = useState('');
   const [pressedButton, setPressedButton] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleButtonClick = (value: string) => {
+    inputRef.current?.focus();
     setPressedButton(value);
     setTimeout(() => setPressedButton(null), 180);
 
@@ -104,6 +106,7 @@ export function Calculator() {
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         placeholder='0'
+        ref={inputRef}
         autoFocus
       />
 
