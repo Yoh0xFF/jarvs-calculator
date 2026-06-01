@@ -9,14 +9,13 @@
     "Abstract syntax tree",
     "Interpreter"
   ],
+  "repository": "https://github.com/Yoh0xFF/math-expression-evaluator",
   "license": "MIT",
   "author": "Ioram Gordadze <Yoh0xFF@gmail.com>",
   "type": "module",
-  "main": "dist/index.mjs",
   "scripts": {
-    "build": "tsc && tsup",
-    "build:dev": "tsc --watch",
-    "clean": "npx rimraf ./dist ./node_modules --glob",
+    "build": "tsc && vite build",
+    "deploy": "gh-pages -d dist -u 'github-actions-bot <support+actions@github.com>'",
     "format": "prettier --no-error-on-unmatched-pattern --write \"./**/*.{js,ts}\" && prettier --write package.json",
     "git:clear": "git remote prune origin && git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -D",
     "postinstall": "husky init && npx path-exists-cli .husky && echo \"npm run pre-commit\" > .husky/pre-commit && prettier --write package.json",
@@ -24,10 +23,10 @@
     "lint:fix": "eslint . --fix",
     "pre-commit": "lint-staged",
     "prepare": "husky",
-    "start": "node dist/index.mjs",
-    "start:dev": "tsx --watch src/index.ts",
-    "test": "node --import tsx --test src/**/*.test.ts",
-    "test:dev": "node --import tsx --test --watch src/**/*.test.ts"
+    "start": "vite",
+    "start:preview": "vite preview",
+    "test": "vitest run",
+    "test:dev": "vitest"
   },
   "lint-staged": {
     "*.{js,jsx,mjs,cjs,ts,tsx}": [
@@ -39,26 +38,39 @@
     ]
   },
   "dependencies": {
-    "dotenv": "17.3.1"
+    "dotenv": "17.4.2",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
   },
   "devDependencies": {
-    "@eslint/js": "10.0.1",
-    "@types/node": "25.3.2",
-    "eslint": "10.0.2",
-    "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-prettier": "5.5.5",
+    "@eslint/js": "9.39.4",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "25.9.1",
+    "@types/react": "19.2.15",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.2",
+    "eslint": "9.39.4",
+    "eslint-config-prettier": "9.1.2",
+    "eslint-plugin-prettier": "5.5.6",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "gh-pages": "6.3.0",
+    "globals": "17.6.0",
     "husky": "9.1.7",
-    "lint-staged": "16.2.7",
-    "prettier": "3.8.1",
+    "jsdom": "29.1.1",
+    "lint-staged": "17.0.7",
+    "prettier": "3.8.3",
     "prettier-plugin-organize-imports": "4.3.0",
-    "prettier-plugin-packagejson": "3.0.0",
-    "tsup": "8.5.1",
-    "tsx": "4.21.0",
-    "typescript": "5.9.3",
-    "typescript-eslint": "8.56.1"
+    "prettier-plugin-packagejson": "3.0.2",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.60.0",
+    "vite": "8.0.16",
+    "vitest": "4.1.8",
+    "web-vitals": "5.3.0"
   },
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=10.0.0"
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.61.0"
   }
 }

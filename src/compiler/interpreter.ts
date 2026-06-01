@@ -1,4 +1,4 @@
-import { Expression } from '@root/model/index.ts';
+import { Expression } from './ast';
 
 export function evaluateExpression(expression: Expression): number {
   switch (expression.type) {
@@ -10,7 +10,7 @@ export function evaluateExpression(expression: Expression): number {
 
       switch (operator) {
         case '+':
-          return 0 + value;
+          return value;
         case '-':
           return 0 - value;
         default:

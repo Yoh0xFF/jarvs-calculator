@@ -1,0 +1,116 @@
+.calculator {
+  background-color: #1e1e2e;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  padding: 24px;
+  width: 320px;
+}
+
+.calculator .display {
+  background-color: #11111b;
+  border: none;
+  border-radius: 8px;
+  color: #cdd6f4;
+  font-family: 'Courier New', monospace;
+  font-size: 22px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  min-height: 140px;
+  outline: none;
+  padding: 16px;
+  resize: none;
+  text-align: left;
+  caret-shape: underscore;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.calculator .display::placeholder {
+  color: #45475a;
+}
+
+.calculator .buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.calculator .buttons .button {
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 18px 0;
+  transition: background-color 0.1s ease;
+}
+
+.calculator .buttons .button.number {
+  background-color: #313244;
+  color: #cdd6f4;
+}
+
+.calculator .buttons .button.number:hover {
+  background-color: #45475a;
+}
+
+.calculator .buttons .button.operator {
+  background-color: #45475a;
+  color: #89b4fa;
+}
+
+.calculator .buttons .button.operator:hover {
+  background-color: #585b70;
+}
+
+.calculator .buttons .button.equals {
+  background-color: #89b4fa;
+  color: #1e1e2e;
+  font-weight: 700;
+}
+
+.calculator .buttons .button.equals:hover {
+  background-color: #b4befe;
+}
+
+.calculator .buttons .button.wide {
+  grid-column: span 2;
+}
+
+@media (max-width: 480px) {
+  .calculator {
+    border-radius: 0;
+    box-shadow: none;
+    height: 100dvh;
+    padding: 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .calculator .buttons {
+    flex: 1;
+    align-content: stretch;
+    grid-template-rows: repeat(5, 1fr);
+  }
+
+  .calculator .buttons .button {
+    height: 100%;
+  }
+}
+
+@keyframes button-press {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.92);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.calculator .buttons .button.pressed {
+  animation: button-press 0.18s ease-out;
+}

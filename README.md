@@ -1,12 +1,12 @@
-# Math expression evaluator
+# JARVS (Just A Rather Very Simple) Calculator
 
-<p align="center">
+<p style="text-align: center">
   <img alt="pic" src="https://raw.githubusercontent.com/Yoh0xFF/math-expression-evaluator/refs/heads/main/calculator.png" />
 </p>
 
-## Desription
+## Description
 
-Simple math expression evaluator.
+Simple calculator to execute the math expression.
 
 Supported operators ordered by precedence:
 
@@ -14,7 +14,7 @@ Supported operators ordered by precedence:
 - Factor operators: `*`, `/`
 - Term operators: `+`, `-`
 
-The evaluator supports grouping expression as well.
+The calculator supports grouping expression as well.
 
 Examples:
 
@@ -23,13 +23,6 @@ Examples:
 - `2 + 14 / 2`
 - `(1 + 4) * 5 / (10 + -5)`
 - `(2 + 7) * 2 + 2.5`
-
-## Configuration
-
-You can set which lexer and parser to use in the `.env` configuration file.
-
-- env variable `LEXER` (supported options are `Regex`, `Scanner`)
-- env variable `PARSER` (supported options are `Recursive`, `Pratt`)
 
 ## NPM Commands
 
