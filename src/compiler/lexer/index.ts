@@ -1,14 +1,18 @@
-import { appConfig } from '../../appConfig';
 import { Token } from '../model';
 import { LexerInterface } from './interface';
 import { RegexLexer } from './regex-lexer';
 import { ScannerLexer } from './scanner-lexer';
 
+export type LexerType = 'Regex' | 'Scanner';
+
 export class Lexer implements LexerInterface {
   private lexer: LexerInterface;
 
-  constructor(public expression: string) {
-    switch (appConfig.getLexerType()) {
+  constructor(
+    public expression: string,
+    type: LexerType = 'Regex',
+  ) {
+    switch (type) {
       case 'Regex':
         this.lexer = new RegexLexer(this.expression);
         break;

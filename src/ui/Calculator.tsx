@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { evaluateExpression } from '../compiler/interpreter';
+import { Lexer } from '../compiler/lexer';
+import { Parser } from '../compiler/parser';
 import './Calculator.css';
 
 type ButtonConfig = {
@@ -48,7 +51,15 @@ export function Calculator() {
     setTimeout(() => setPressedButton(null), 180);
 
     if (value === '=') {
-      // TODO: evaluate expression
+      try {
+        const lexer = new Lexer(expression);
+        const parser = new Parser(lexer);
+        const ast = parser.parseExpression();
+        const result = evaluateExpression(ast);
+        setExpression(String(result));
+      } catch {
+        setExpression('Error');
+      }
       return;
     }
 

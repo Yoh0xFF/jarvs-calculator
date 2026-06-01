@@ -10,7 +10,7 @@ export function evaluateExpression(expression: Expression): number {
 
       switch (operator) {
         case '+':
-          return 0 + value;
+          return value;
         case '-':
           return 0 - value;
         default:
