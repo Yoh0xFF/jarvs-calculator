@@ -73,6 +73,28 @@
   grid-column: span 2;
 }
 
+@media (max-width: 480px) {
+  .calculator {
+    border-radius: 0;
+    box-shadow: none;
+    height: 100dvh;
+    padding: 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .calculator .buttons {
+    flex: 1;
+    align-content: stretch;
+    grid-template-rows: repeat(5, 1fr);
+  }
+
+  .calculator .buttons .button {
+    height: 100%;
+  }
+}
+
 @keyframes button-press {
   0% {
     transform: scale(1);

@@ -17,3 +17,10 @@ body {
   justify-content: center;
   min-height: 100vh;
 }
+
+@media (max-width: 480px) {
+  .app {
+    align-items: stretch;
+    min-height: 100dvh;
+  }
+}
