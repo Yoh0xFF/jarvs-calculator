@@ -1,7 +1,7 @@
 {
-  "name": "math-expression-evaluator",
+  "name": "jarvs-calculator",
   "version": "1.0.0",
-  "description": "Math expression evaluator",
+  "description": "JARVS (Just A Rather Very Simple) Calculator",
   "keywords": [
     "Lexer",
     "Recursive descent parser",
@@ -9,7 +9,7 @@
     "Abstract syntax tree",
     "Interpreter"
   ],
-  "repository": "https://github.com/Yoh0xFF/math-expression-evaluator",
+  "repository": "https://github.com/Yoh0xFF/jarvs-calculator.git",
   "license": "MIT",
   "author": "Ioram Gordadze <Yoh0xFF@gmail.com>",
   "type": "module",
