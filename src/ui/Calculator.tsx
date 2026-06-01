@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './Calculator.css';
 
 type ButtonConfig = {
@@ -41,28 +41,28 @@ const buttonLayout: ButtonConfig[][] = [
 export function Calculator() {
   const [expression, setExpression] = useState('');
 
-  function handleButtonClick(value: string) {
+  const handleButtonClick = (value: string) => {
     if (value === '=') {
       // TODO: evaluate expression
       return;
     }
     setExpression((prev) => prev + value);
-  }
+  };
 
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setExpression(e.target.value.replace(/[^0-9+\-*/().]/g, ''));
-  }
+  };
 
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleButtonClick('=');
     }
-  }
+  };
 
   return (
     <div className='calculator'>
       <input
-        className='calculator-display'
+        className='display'
         type='text'
         value={expression}
         onChange={handleInputChange}
@@ -70,24 +70,23 @@ export function Calculator() {
         placeholder='0'
         autoFocus
       />
-      <div className='calculator-buttons'>
+
+      <div className='buttons'>
         {buttonLayout.map((row, rowIndex) => (
-          <div key={rowIndex} className='calculator-row'>
-            {row.map((btn) => (
+          <div key={rowIndex} className='row'>
+            {row.map((button) => (
               <button
-                key={btn.value}
+                key={button.value}
                 className={[
-                  'calculator-btn',
-                  btn.wide ? 'calculator-btn-wide' : '',
-                  btn.value === '=' ? 'calculator-btn-equals' : '',
-                  '0123456789.'.includes(btn.value)
-                    ? 'calculator-btn-number'
-                    : 'calculator-btn-operator',
+                  'button',
+                  button.wide ? 'wide' : '',
+                  button.value === '=' ? 'equals' : '',
+                  '0123456789.'.includes(button.value) ? 'number' : 'operator',
                 ]
                   .filter(Boolean)
                   .join(' ')}
-                onClick={() => handleButtonClick(btn.value)}>
-                {btn.label}
+                onClick={() => handleButtonClick(button.value)}>
+                {button.label}
               </button>
             ))}
           </div>
