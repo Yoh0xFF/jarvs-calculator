@@ -1,6 +1,6 @@
 # JARVS (Just A Rather Very Simple) Calculator
 
-<p style="display: flex; justify-content: center;">
+<p align="center">
   <img alt="pic" src="https://raw.githubusercontent.com/Yoh0xFF/math-expression-evaluator/refs/heads/main/calculator.png" />
 </p>
 
