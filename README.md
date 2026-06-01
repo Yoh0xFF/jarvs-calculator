@@ -6,7 +6,7 @@
 
 ## Description
 
-Simple calculator to execute the math expression.
+Simple calculator to execute the math expressions.
 
 Supported operators ordered by precedence:
 
