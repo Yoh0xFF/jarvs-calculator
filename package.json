@@ -9,11 +9,13 @@
     "Abstract syntax tree",
     "Interpreter"
   ],
+  "repository": "https://github.com/Yoh0xFF/math-expression-evaluator",
   "license": "MIT",
   "author": "Ioram Gordadze <Yoh0xFF@gmail.com>",
   "type": "module",
   "scripts": {
     "build": "tsc && vite build",
+    "deploy": "gh-pages -d dist -u 'github-actions-bot <support+actions@github.com>'",
     "format": "prettier --no-error-on-unmatched-pattern --write \"./**/*.{js,ts}\" && prettier --write package.json",
     "git:clear": "git remote prune origin && git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -D",
     "postinstall": "husky init && npx path-exists-cli .husky && echo \"npm run pre-commit\" > .husky/pre-commit && prettier --write package.json",
@@ -54,6 +56,7 @@
     "eslint-plugin-prettier": "5.5.6",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.1.1",
+    "gh-pages": "6.3.0",
     "globals": "17.6.0",
     "husky": "9.1.7",
     "jsdom": "29.1.1",
@@ -66,5 +69,8 @@
     "vite": "8.0.16",
     "vitest": "4.1.8",
     "web-vitals": "5.3.0"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.61.0"
   }
 }
