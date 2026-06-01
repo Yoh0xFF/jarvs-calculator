@@ -1,9 +1,6 @@
 node_modules
 dist
 
-# Husky config files
-.husky
-
 # Logs
 logs
 *.log
