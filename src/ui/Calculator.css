@@ -44,43 +44,53 @@
   font-size: 18px;
   font-weight: 500;
   padding: 18px 0;
-  transition:
-    background-color 0.1s ease,
-    transform 0.08s ease;
+  transition: background-color 0.1s ease;
 }
 
-.calculator .buttons .button:active {
-  transform: scale(0.95);
-}
-
-.calculator .button .number {
+.calculator .buttons .button.number {
   background-color: #313244;
   color: #cdd6f4;
 }
 
-.calculator .button .number:hover {
+.calculator .buttons .button.number:hover {
   background-color: #45475a;
 }
 
-.calculator .button .operator {
+.calculator .buttons .button.operator {
   background-color: #45475a;
   color: #89b4fa;
 }
 
-.calculator .button .operator:hover {
+.calculator .buttons .button.operator:hover {
   background-color: #585b70;
 }
 
-.calculator .button .equals {
+.calculator .buttons .button.equals {
   background-color: #89b4fa;
   color: #1e1e2e;
   font-weight: 700;
 }
 
-.calculator .button .equals:hover {
+.calculator .buttons .button.equals:hover {
   background-color: #b4befe;
 }
 
-.calculator .button .wide {
+.calculator .buttons .button.wide {
   grid-column: span 2;
+}
+
+@keyframes button-press {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.92);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.calculator .buttons .button.pressed {
+  animation: button-press 0.18s ease-out;
 }

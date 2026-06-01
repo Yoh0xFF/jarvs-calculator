@@ -40,8 +40,12 @@ const buttonLayout: ButtonConfig[][] = [
 
 export function Calculator() {
   const [expression, setExpression] = useState('');
+  const [pressedButton, setPressedButton] = useState<string | null>(null);
 
   const handleButtonClick = (value: string) => {
+    setPressedButton(value);
+    setTimeout(() => setPressedButton(null), 180);
+
     if (value === '=') {
       // TODO: evaluate expression
       return;
@@ -82,6 +86,7 @@ export function Calculator() {
                   button.wide ? 'wide' : '',
                   button.value === '=' ? 'equals' : '',
                   '0123456789.'.includes(button.value) ? 'number' : 'operator',
+                  pressedButton === button.value ? 'pressed' : '',
                 ]
                   .filter(Boolean)
                   .join(' ')}
