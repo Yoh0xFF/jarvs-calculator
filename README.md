@@ -1,6 +1,6 @@
 # JARVS (Just A Rather Very Simple) Calculator
 
-<p style="text-align: center">
+<p style="display: flex; justify-content: center;">
   <img alt="pic" src="https://raw.githubusercontent.com/Yoh0xFF/math-expression-evaluator/refs/heads/main/calculator.png" />
 </p>
 
@@ -23,6 +23,8 @@ Examples:
 - `2 + 14 / 2`
 - `(1 + 4) * 5 / (10 + -5)`
 - `(2 + 7) * 2 + 2.5`
+
+Please see the calculator [here](https://yoh0xff.github.io/jarvs-calculator/).
 
 ## NPM Commands
 
