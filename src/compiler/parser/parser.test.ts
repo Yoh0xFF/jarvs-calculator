@@ -1,10 +1,8 @@
-import { deepStrictEqual, fail, strictEqual } from 'node:assert';
-import { beforeEach, describe, it, mock } from 'node:test';
-import { appConfig, ParserType } from '../../appConfig';
+import { describe, expect, it } from 'vitest';
 import { Lexer } from '../lexer';
-import { Parser } from './index';
+import { Parser, ParserType } from './index';
 
-describe('Test PrattParser', function () {
+describe('Test PrattParser', () => {
   runTests('Pratt');
 });
 
@@ -13,256 +11,143 @@ describe('Test RecursiveDescentParser', () => {
 });
 
 function runTests(type: ParserType) {
-  beforeEach(() => {
-    mock.method(appConfig, 'getParserType', () => type);
+  it('parse term operators', () => {
+    const parser = new Parser(new Lexer('7 + 9 - 7'), type);
+    expect(parser.parseExpression()).toEqual({
+      type: 'Binary',
+      left: {
+        type: 'Binary',
+        left: { type: 'Literal', value: 7 },
+        operator: '+',
+        right: { type: 'Literal', value: 9 },
+      },
+      operator: '-',
+      right: { type: 'Literal', value: 7 },
+    });
   });
 
-  describe('Run tests', () => {
-    it('parse term operators', () => {
-      const expression = '7 + 9 - 7';
-      const parser = new Parser(new Lexer(expression));
-      const ast = parser.parseExpression();
-
-      deepStrictEqual(ast, {
+  it('parse factor operators', () => {
+    const parser = new Parser(new Lexer('7 * 9 / 7'), type);
+    expect(parser.parseExpression()).toEqual({
+      type: 'Binary',
+      left: {
         type: 'Binary',
-        left: {
+        left: { type: 'Literal', value: 7 },
+        operator: '*',
+        right: { type: 'Literal', value: 9 },
+      },
+      operator: '/',
+      right: { type: 'Literal', value: 7 },
+    });
+  });
+
+  it('correctly parse operator precedence', () => {
+    const parser = new Parser(new Lexer('7 + 9 * 7'), type);
+    expect(parser.parseExpression()).toEqual({
+      type: 'Binary',
+      left: { type: 'Literal', value: 7 },
+      operator: '+',
+      right: {
+        type: 'Binary',
+        left: { type: 'Literal', value: 9 },
+        operator: '*',
+        right: { type: 'Literal', value: 7 },
+      },
+    });
+  });
+
+  it('parse group expression', () => {
+    const parser = new Parser(new Lexer('(5 + 9) / 2'), type);
+    expect(parser.parseExpression()).toEqual({
+      type: 'Binary',
+      left: {
+        type: 'Group',
+        expression: {
           type: 'Binary',
-          left: {
-            type: 'Literal',
-            value: 7,
-          },
+          left: { type: 'Literal', value: 5 },
           operator: '+',
-          right: {
-            type: 'Literal',
-            value: 9,
-          },
+          right: { type: 'Literal', value: 9 },
         },
+      },
+      operator: '/',
+      right: { type: 'Literal', value: 2 },
+    });
+  });
+
+  it('correctly parse unary operator precedence', () => {
+    const parser = new Parser(new Lexer('5 * -5'), type);
+    expect(parser.parseExpression()).toEqual({
+      type: 'Binary',
+      left: { type: 'Literal', value: 5 },
+      operator: '*',
+      right: {
+        type: 'Unary',
         operator: '-',
-        right: {
-          type: 'Literal',
-          value: 7,
-        },
-      });
+        right: { type: 'Literal', value: 5 },
+      },
     });
+  });
 
-    it('parse factor operators', () => {
-      const expression = '7 * 9 / 7';
-      const parser = new Parser(new Lexer(expression));
-      const ast = parser.parseExpression();
-
-      deepStrictEqual(ast, {
-        type: 'Binary',
-        left: {
-          type: 'Binary',
-          left: {
-            type: 'Literal',
-            value: 7,
-          },
-          operator: '*',
-          right: {
-            type: 'Literal',
-            value: 9,
-          },
-        },
-        operator: '/',
-        right: {
-          type: 'Literal',
-          value: 7,
-        },
-      });
-    });
-
-    it('correctly parse operator precedence', () => {
-      const expression = '7 + 9 * 7';
-      const parser = new Parser(new Lexer(expression));
-      const ast = parser.parseExpression();
-
-      deepStrictEqual(ast, {
-        type: 'Binary',
-        left: {
-          type: 'Literal',
-          value: 7,
-        },
-        operator: '+',
-        right: {
-          type: 'Binary',
-          left: {
-            type: 'Literal',
-            value: 9,
-          },
-          operator: '*',
-          right: {
-            type: 'Literal',
-            value: 7,
-          },
-        },
-      });
-    });
-
-    it('parse group expression', () => {
-      const expression = '(5 + 9) / 2';
-      const parser = new Parser(new Lexer(expression));
-      const ast = parser.parseExpression();
-
-      deepStrictEqual(ast, {
+  it('correctly parse complex expression', () => {
+    const parser = new Parser(new Lexer('(1 + 4) * 5 / (10 + -5)'), type);
+    expect(parser.parseExpression()).toEqual({
+      type: 'Binary',
+      left: {
         type: 'Binary',
         left: {
           type: 'Group',
           expression: {
             type: 'Binary',
-            left: {
-              type: 'Literal',
-              value: 5,
-            },
+            left: { type: 'Literal', value: 1 },
             operator: '+',
-            right: {
-              type: 'Literal',
-              value: 9,
-            },
+            right: { type: 'Literal', value: 4 },
           },
-        },
-        operator: '/',
-        right: {
-          type: 'Literal',
-          value: 2,
-        },
-      });
-    });
-
-    it('correctly parse unary operator precedence', () => {
-      const expression = '5 * -5';
-      const parser = new Parser(new Lexer(expression));
-      const ast = parser.parseExpression();
-
-      deepStrictEqual(ast, {
-        type: 'Binary',
-        left: {
-          type: 'Literal',
-          value: 5,
         },
         operator: '*',
-        right: {
-          type: 'Unary',
-          operator: '-',
-          right: {
-            type: 'Literal',
-            value: 5,
-          },
-        },
-      });
-    });
-
-    it('correctly parse complex expression', () => {
-      const expression = '(1 + 4) * 5 / (10 + -5)';
-      const parser = new Parser(new Lexer(expression));
-      const ast = parser.parseExpression();
-
-      deepStrictEqual(ast, {
-        type: 'Binary',
-        left: {
+        right: { type: 'Literal', value: 5 },
+      },
+      operator: '/',
+      right: {
+        type: 'Group',
+        expression: {
           type: 'Binary',
-          left: {
-            type: 'Group',
-            expression: {
-              type: 'Binary',
-              left: {
-                type: 'Literal',
-                value: 1,
-              },
-              operator: '+',
-              right: {
-                type: 'Literal',
-                value: 4,
-              },
-            },
-          },
-          operator: '*',
+          left: { type: 'Literal', value: 10 },
+          operator: '+',
           right: {
-            type: 'Literal',
-            value: 5,
+            type: 'Unary',
+            operator: '-',
+            right: { type: 'Literal', value: 5 },
           },
         },
-        operator: '/',
-        right: {
-          type: 'Group',
-          expression: {
-            type: 'Binary',
-            left: {
-              type: 'Literal',
-              value: 10,
-            },
-            operator: '+',
-            right: {
-              type: 'Unary',
-              operator: '-',
-              right: {
-                type: 'Literal',
-                value: 5,
-              },
-            },
-          },
-        },
-      });
+      },
     });
+  });
 
-    it('throw error for invalid parentheses', () => {
-      const expression = '(1 + 4( * 5';
-      const parser = new Parser(new Lexer(expression));
+  it('throw error for invalid parentheses', () => {
+    const parser = new Parser(new Lexer('(1 + 4( * 5'), type);
+    expect(() => parser.parseExpression()).toThrow(
+      "Invalid expression, unknow character '(' at index 6",
+    );
+  });
 
-      try {
-        parser.parseExpression();
-        fail('Should not reach');
-      } catch (error) {
-        strictEqual(
-          (error as Error).message,
-          "Invalid expression, unknow character '(' at index 6",
-        );
-      }
-    });
+  it('throw error for missing right parentheses', () => {
+    const parser = new Parser(new Lexer('(1 + 4 * 5'), type);
+    expect(() => parser.parseExpression()).toThrow(
+      "Invalid expression, unknow character ';' at index 10",
+    );
+  });
 
-    it('throw error for missing right parentheses', () => {
-      const expression = '(1 + 4 * 5';
-      const parser = new Parser(new Lexer(expression));
+  it('throw error for missing left parentheses', () => {
+    const parser = new Parser(new Lexer('1 + 4) * 5'), type);
+    expect(() => parser.parseExpression()).toThrow(
+      "Invalid expression, unknow character ')' at index 5",
+    );
+  });
 
-      try {
-        parser.parseExpression();
-        fail('Should not reach');
-      } catch (error) {
-        strictEqual(
-          (error as Error).message,
-          "Invalid expression, unknow character ';' at index 10",
-        );
-      }
-    });
-
-    it('throw error for missing left parentheses', () => {
-      const expression = '1 + 4) * 5';
-      const parser = new Parser(new Lexer(expression));
-
-      try {
-        parser.parseExpression();
-        fail('Should not reach');
-      } catch (error) {
-        strictEqual(
-          (error as Error).message,
-          "Invalid expression, unknow character ')' at index 5",
-        );
-      }
-    });
-
-    it('throw error for invalid unary operator', () => {
-      const expression = '1 + *5';
-      const parser = new Parser(new Lexer(expression));
-
-      try {
-        parser.parseExpression();
-        fail('Should not reach');
-      } catch (error) {
-        strictEqual(
-          (error as Error).message,
-          "Invalid expression, unknow character '*' at index 4",
-        );
-      }
-    });
+  it('throw error for invalid unary operator', () => {
+    const parser = new Parser(new Lexer('1 + *5'), type);
+    expect(() => parser.parseExpression()).toThrow(
+      "Invalid expression, unknow character '*' at index 4",
+    );
   });
 }

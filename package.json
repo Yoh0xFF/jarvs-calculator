@@ -23,8 +23,8 @@
     "prepare": "husky",
     "start": "vite",
     "start:preview": "vite preview",
-    "test": "node --import tsx --test src/**/*.test.ts",
-    "test:dev": "node --import tsx --test --watch src/**/*.test.ts"
+    "test": "vitest run",
+    "test:dev": "vitest"
   },
   "lint-staged": {
     "*.{js,jsx,mjs,cjs,ts,tsx}": [

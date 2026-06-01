@@ -1,8 +1,6 @@
-import { strictEqual } from 'node:assert';
-import { beforeEach, describe, it, mock } from 'node:test';
-import { appConfig, LexerType, ParserType } from '../../appConfig';
-import { Lexer } from '../lexer';
-import { Parser } from '../parser';
+import { describe, expect, it } from 'vitest';
+import { Lexer, LexerType } from '../lexer';
+import { Parser, ParserType } from '../parser';
 import { evaluateExpression } from './index';
 
 describe('Test Interpreter with Regex lexer and Recursive parser', () => {
@@ -22,76 +20,49 @@ describe('Test Interpreter with Scanner lexer and Pratt parser', () => {
 });
 
 function runTests(lexerType: LexerType, parserType: ParserType) {
-  beforeEach(() => {
-    mock.method(appConfig, 'getLexerType', () => lexerType);
-    mock.method(appConfig, 'getParserType', () => parserType);
+  it('evaluate term operators', () => {
+    const parser = new Parser(
+      new Lexer('7.2 + 9 - 7.2', lexerType),
+      parserType,
+    );
+    expect(evaluateExpression(parser.parseExpression())).toBe(9);
   });
 
-  describe('Run tests', () => {
-    it('evaluate term operators', () => {
-      const expression = '7.2 + 9 - 7.2';
-      const parser = new Parser(new Lexer(expression));
-      const ast = parser.parseExpression();
-      const result = evaluateExpression(ast);
+  it('parse factor operators', () => {
+    const parser = new Parser(new Lexer('7 * 9 / 7', lexerType), parserType);
+    expect(evaluateExpression(parser.parseExpression())).toBe(9);
+  });
 
-      strictEqual(result, 9);
-    });
+  it('correctly parse operator precedence', () => {
+    const parser = new Parser(new Lexer('7.2 + 9 * 7', lexerType), parserType);
+    expect(evaluateExpression(parser.parseExpression())).toBe(70.2);
+  });
 
-    it('parse factor operators', () => {
-      const expression = '7 * 9 / 7';
-      const parser = new Parser(new Lexer(expression));
-      const ast = parser.parseExpression();
-      const result = evaluateExpression(ast);
+  it('parse group expression', () => {
+    const parser = new Parser(new Lexer('(5 + 9) / 2', lexerType), parserType);
+    expect(evaluateExpression(parser.parseExpression())).toBe(7);
+  });
 
-      strictEqual(result, 9);
-    });
+  it('correctly parse unary operator precedence', () => {
+    const parser = new Parser(new Lexer('5 * -5', lexerType), parserType);
+    expect(evaluateExpression(parser.parseExpression())).toBe(-25);
+  });
 
-    it('correctly parse operator precedence', () => {
-      const expression = '7.2 + 9 * 7';
-      const parser = new Parser(new Lexer(expression));
-      const ast = parser.parseExpression();
-      const result = evaluateExpression(ast);
+  it('correctly parse complex expression', () => {
+    const parser = new Parser(
+      new Lexer('(1 + 4) * 5 / (10 + -5)', lexerType),
+      parserType,
+    );
+    expect(evaluateExpression(parser.parseExpression())).toBe(5);
+  });
 
-      strictEqual(result, 70.2);
-    });
-
-    it('parse group expression', () => {
-      const expression = '(5 + 9) / 2';
-      const parser = new Parser(new Lexer(expression));
-      const ast = parser.parseExpression();
-      const result = evaluateExpression(ast);
-
-      strictEqual(result, 7);
-    });
-
-    it('correctly parse unary operator precedence', () => {
-      const expression = '5 * -5';
-      const parser = new Parser(new Lexer(expression));
-      const ast = parser.parseExpression();
-      const result = evaluateExpression(ast);
-
-      strictEqual(result, -25);
-    });
-
-    it('correctly parse complex expression', () => {
-      const expression = '(1 + 4) * 5 / (10 + -5)';
-      const parser = new Parser(new Lexer(expression));
-      const ast = parser.parseExpression();
-      const result = evaluateExpression(ast);
-
-      strictEqual(result, 5);
-    });
-
-    it('throw error on division by zero', () => {
-      const expression = '(1 + 4) * 5 / (5 + -5)';
-      const parser = new Parser(new Lexer(expression));
-      const ast = parser.parseExpression();
-
-      try {
-        evaluateExpression(ast);
-      } catch (error) {
-        strictEqual((error as Error).message, 'Division by zero');
-      }
-    });
+  it('throw error on division by zero', () => {
+    const parser = new Parser(
+      new Lexer('(1 + 4) * 5 / (5 + -5)', lexerType),
+      parserType,
+    );
+    expect(() => evaluateExpression(parser.parseExpression())).toThrow(
+      'Division by zero',
+    );
   });
 }
