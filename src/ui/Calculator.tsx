@@ -84,25 +84,21 @@ export function Calculator() {
       />
 
       <div className='buttons'>
-        {buttonLayout.map((row, rowIndex) => (
-          <div key={rowIndex} className='row'>
-            {row.map((button) => (
-              <button
-                key={button.value}
-                className={[
-                  'button',
-                  button.wide ? 'wide' : '',
-                  button.value === '=' ? 'equals' : '',
-                  '0123456789.'.includes(button.value) ? 'number' : 'operator',
-                  pressedButton === button.value ? 'pressed' : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                onClick={() => handleButtonClick(button.value)}>
-                {button.label}
-              </button>
-            ))}
-          </div>
+        {buttonLayout.flat().map((button) => (
+          <button
+            key={button.value}
+            className={[
+              'button',
+              button.wide ? 'wide' : '',
+              button.value === '=' ? 'equals' : '',
+              '0123456789.'.includes(button.value) ? 'number' : 'operator',
+              pressedButton === button.value ? 'pressed' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            onClick={() => handleButtonClick(button.value)}>
+            {button.label}
+          </button>
         ))}
       </div>
     </div>

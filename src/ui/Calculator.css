@@ -26,12 +26,6 @@
 }
 
 .calculator .buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.calculator .row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
@@ -69,6 +63,7 @@
   background-color: #89b4fa;
   color: #1e1e2e;
   font-weight: 700;
+  grid-row: span 2;
 }
 
 .calculator .buttons .button.equals:hover {
