@@ -8,24 +8,23 @@
 
 .calculator .display {
   background-color: #11111b;
-  border: none;
   border-radius: 8px;
+  box-sizing: border-box;
   color: #cdd6f4;
   font-family: 'Courier New', monospace;
   font-size: 22px;
   line-height: 1.5;
   margin-bottom: 20px;
   min-height: 140px;
-  outline: none;
+  overflow-y: auto;
   padding: 16px;
-  resize: none;
   text-align: left;
-  caret-shape: underscore;
+  white-space: pre-wrap;
   width: 100%;
-  box-sizing: border-box;
+  word-break: break-all;
 }
 
-.calculator .display::placeholder {
+.calculator .display .placeholder {
   color: #45475a;
 }
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { evaluateExpression } from '../compiler/interpreter';
 import { Lexer } from '../compiler/lexer';
 import { Parser } from '../compiler/parser';
@@ -42,30 +42,40 @@ const buttonLayout: ButtonConfig[][] = [
   ],
 ];
 
+const allowedChars = new Set([
+  '0',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '+',
+  '-',
+  '*',
+  '/',
+  '(',
+  ')',
+  '.',
+]);
+
 export function Calculator() {
   const [expression, setExpression] = useState('');
   const [pressedButton, setPressedButton] = useState<string | null>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const flash = (key: string) => {
+    setPressedButton(key);
+    setTimeout(() => setPressedButton(null), 180);
+  };
 
   const handleButtonClick = (value: string) => {
-    inputRef.current?.focus();
-    setPressedButton(value);
-    setTimeout(() => setPressedButton(null), 180);
+    flash(value);
 
     if (value === '=') {
-      const collapsed = expression.replace(/\n/g, '');
-      if (collapsed.trim() === '') {
-        return;
-      }
-      try {
-        const lexer = new Lexer(collapsed);
-        const parser = new Parser(lexer);
-        const ast = parser.parseExpression();
-        const result = evaluateExpression(ast);
-        setExpression(String(result));
-      } catch {
-        setExpression('Error');
-      }
+      setExpression(evaluate);
       return;
     }
 
@@ -77,46 +87,49 @@ export function Calculator() {
     setExpression((prev) => prev + value);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setExpression(e.target.value.replace(/[^0-9+\-*/().\n]/g, ''));
-  };
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Backspace' || e.key === 'Delete') {
+        flash('backspace');
+        setExpression((prev) => prev.slice(0, -1));
+        return;
+      }
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Backspace' || e.key === 'Delete') {
-      setPressedButton('backspace');
-      setTimeout(() => setPressedButton(null), 180);
-      return;
-    }
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        flash('=');
+        setExpression(evaluate);
+        return;
+      }
 
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      setPressedButton('=');
-      setTimeout(() => setPressedButton(null), 180);
-      handleButtonClick('=');
-      return;
-    }
+      if (e.key === 'Enter' && e.shiftKey) {
+        setExpression((prev) => prev + '\n');
+        return;
+      }
 
-    const allButtonValues = buttonLayout.flat().map((b) => b.value);
-    if (allButtonValues.includes(e.key)) {
-      setPressedButton(e.key);
-      setTimeout(() => setPressedButton(null), 180);
-    }
-  };
+      const allButtonValues = buttonLayout.flat().map((b) => b.value);
+      if (allButtonValues.includes(e.key)) {
+        flash(e.key);
+      }
+
+      if (e.key.length === 1 && allowedChars.has(e.key)) {
+        setExpression((prev) => prev + e.key);
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
 
   return (
     <div className='calculator'>
-      <textarea
-        className='display'
-        value={expression}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
-        placeholder='0'
-        ref={inputRef}
-        autoFocus
-        spellCheck={false}
-        data-gramm='false'
-        data-gramm_editor='false'
-      />
+      <div className='display'>
+        {expression === '' ? (
+          <span className='placeholder'>0</span>
+        ) : (
+          expression
+        )}
+      </div>
 
       <div className='buttons'>
         {buttonLayout.flat().map((button) => (
@@ -138,4 +151,20 @@ export function Calculator() {
       </div>
     </div>
   );
+}
+
+function evaluate(prev: string): string {
+  const collapsed = prev.replace(/\n/g, '');
+  if (collapsed.trim() === '') {
+    return prev;
+  }
+
+  try {
+    const lexer = new Lexer(collapsed);
+    const parser = new Parser(lexer);
+    const ast = parser.parseExpression();
+    return String(evaluateExpression(ast));
+  } catch {
+    return 'Error';
+  }
 }
